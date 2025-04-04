@@ -140,4 +140,12 @@ contract DepositContract {
             revert DepositContract__InsufficientAmountOut();
         }
     }
+
+    function getTotalDepositAmount() external view returns (uint256) {
+        return s_totalDepositAmount;
+    }
+
+    function getTotalSaveTokenAmount() external view returns (uint256) {
+        return i_save.balanceOf(address(this));
+    }
 }

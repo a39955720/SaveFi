@@ -173,4 +173,12 @@ contract SaveFi is Ownable {
     function getDepositPlan(address user) external view returns (DepositPlan memory) {
         return s_depositPlan[user];
     }
+
+    function getUserTotalDepositedAmount(address user) external view returns (uint256) {
+        return s_depositPlan[user].depositContract.getTotalDepositAmount();
+    }
+
+    function getUserTotalSaveTokenAmount(address user) external view returns (uint256) {
+        return s_depositPlan[user].depositContract.getTotalSaveTokenAmount();
+    }
 }
