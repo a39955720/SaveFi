@@ -36,7 +36,7 @@ contract SaveFi is Ownable {
     event DepositPlanStarted(
         address indexed user,
         address depositContract,
-        uint256 amountPerDeposit,
+        uint256 amount,
         uint256 depositEndTime,
         uint256 nextDepositDeadline
     );
@@ -160,14 +160,14 @@ contract SaveFi is Ownable {
         s_depositPlan[msg.sender].isWithdrawn = true;
         s_depositPlan[msg.sender].isStarted = false;
         s_depositPlan[msg.sender].depositContract.withdraw(minAmountOut);
-        emit Withdrawn(msg.sender, s_depositPlan[msg.sender].amountPerDeposit, false);
+        emit Withdrawn(msg.sender, s_depositPlan[msg.sender].depositContract.getTotalDepositAmount(), false);
     }
 
     function earlyWithdraw(uint256 minAmountOut) external onlyIfNotWithdrawn onlyIfStarted {
         s_depositPlan[msg.sender].isWithdrawn = true;
         s_depositPlan[msg.sender].isStarted = false;
         s_depositPlan[msg.sender].depositContract.earlyWithdraw(minAmountOut);
-        emit Withdrawn(msg.sender, s_depositPlan[msg.sender].amountPerDeposit, true);
+        emit Withdrawn(msg.sender, s_depositPlan[msg.sender].depositContract.getTotalDepositAmount(), true);
     }
 
     function getDepositPlan(address user) external view returns (DepositPlan memory) {
